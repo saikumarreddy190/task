@@ -1,0 +1,134 @@
+<div class="container-fluid">
+    <div class="row p-0 ">
+        <div class="col-md-12 p-0">
+            <div class="pt-4">
+                <div class="main_dv d-flex px-4">
+                    <h3>Create Shedule of values</h3>
+                    <div class="">
+                        <button type="submit">Submit</button>
+                        <button type="">Save as draft</button>
+                        <button type="">Cancel</button>
+                    </div>
+                </div>
+                <div class="pt-5">
+                    <div class="division_header px-4">
+                        <ul class="d-flex">
+                            <li>SOV#</li>
+                            <li>Division</li>
+                            <li>Sheduled value ($)</li>
+                            <li>Start date</li>
+                            <li>End date</li>
+                            <li>Original duration (days)</li>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="division_body px-4">
+                        <div class="division_body_append">
+                            <form [formGroup]="sheduleForm" (ngSubmit)="onSubmit()">
+                                <!-- -------division ------- -->
+                                <div formArrayName="division">
+                                    <div *ngFor="let div of division().controls; let divisionIndex=index">
+                                        <div [formGroupName]="divisionIndex" class="division_body_append">
+                                            <ul class="d-flex">
+                                                <li>{{divisionIndex+1}}</li>
+                                                <li>
+                                                    <div class="">
+                                                        <input type="text" formControlName="divisionname" value="" name="divisionname" id="divisionname">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="">
+                                                        <p>{{shedulvalue}}</p>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="">
+                                                        <i class='far fa-trash-alt' (click)="removeDivision(divisionIndex)" style='font-size:20px;color:#5f5f5f;cursor: pointer;'></i>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <!-- --------sub division ------- -->
+                                            <div formArrayName="subdivision">
+                                                <div class="sub_division_body_append" *ngFor="let subdiv of subdivisions(divisionIndex).controls; let subdivisionsIndex=index">
+                                                    <ul class="d-flex" [formGroupName]="subdivisionsIndex">
+                                                        <li>{{divisionIndex+1}}.{{subdivisionsIndex +1}}</li>
+                                                        <li>
+                                                            <div class="">
+                                                                <input type="text" formControlName="subdiv" name="" value="" id="subdiv">
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="">
+                                                                <p>{{shedulvalue}}</p>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="">
+                                                                <i class='far fa-trash-alt' (click)="removeSubdivision(divisionIndex,subdivisionsIndex)" style='font-size:20px;color:#5f5f5f;cursor: pointer;'></i>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                    <!-- -------------task --------- -->
+                                                    <div class="" formArrayName="tasks">
+                                                        <div *ngFor="let task of divTasks(subdivisionsIndex).controls; let taskIndex=index">
+                                                            <div class="task_body_append" [formGroupName]="taskIndex">
+                                                                <ul class="d-flex">
+                                                                    <li>{{divisionIndex+1}}.{{subdivisionsIndex +1}}.{{taskIndex+1}}</li>
+                                                                    <li>
+                                                                        <div class="">
+                                                                            <input type="text" formControlName="task_val" name="task_val" value="" id="task_val">
+                                                                        </div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="">
+                                                                            <input type="text"  [formControl]="textControl" [(ngModel)]="shedulvalue" name="shedvalue" width="100"  id="shedvalue">
+                                                                        </div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="">
+                                                                            <input type="date"  [formControl]="textControl"   (ngModelChange)="sdate($event)" name="startdate" id="startdate">
+                                                                        </div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="">
+                                                                            <input type="date"  [formControl]="textControl"   (ngModelChange)="edate($event)" name="enddate" id="enddate">
+                                                                        </div>
+                                                                    </li>
+                                                                    <li>{{totaldiff}}</li>
+                                                                    <li>
+                                                                        <div class="">
+                                                                            <i class='far fa-trash-alt' (click)="removeTask(subdivisionsIndex,taskIndex)" style='font-size:20px;color:#5f5f5f;cursor: pointer;'></i>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>                                             
+                                                <div class="add_subs">
+                                                    <button type="button" (click)="addSubdivision(divisionIndex)">Add sub division</button>
+                                                    <button type="button" (click)="addTask(divisionIndex)">Add task</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <button type="submit">Submit</button> -->
+                            </form>
+                            <div class="add_division my-4">
+                                <button type="button" (click)="addDivision()"> + Add Division </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="division_footer">
+                        <ul class="d-flex py-0 my-0">
+                            <li>Totals</li>
+                            <li>{{shedulvalue}}</li>
+                            <li>{{totaldiff}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
